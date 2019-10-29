@@ -5,11 +5,9 @@ import supercheckers
 
 @click.command()
 def play():
-    game = supercheckers.Game()
-    game.begin()
-    while game.is_active:
-        game.take_turn()
-    game.end()
+    with supercheckers.Game.create() as game:
+        while game.is_active:
+            game.take_turn()
 
 
 if __name__ == "__main__":

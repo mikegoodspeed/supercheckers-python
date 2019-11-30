@@ -12,6 +12,10 @@ black = "*"
 setuptools = "*"
 pytest = "*"
 click = "*"
+e1839a8 = {editable = true,path = "."}
+supercheckers = {editable = true,path = "."}
+flake8 = "*"
+mypy = "*"
 
 [requires]
 python_version = "3.7"

@@ -1,19 +1,7 @@
 import abc
 import re
-from dataclasses import dataclass
-from typing import List, Tuple
 
-from . import enums, utils
-
-
-@dataclass(frozen=True)
-class Move:
-    team: enums.Team
-    locations: List[Tuple[int, int]]
-
-    @property
-    def is_slide(self):
-        return len(self.locations) == 2
+from . import enums, journals, moves, utils
 
 
 class Player(abc.ABC):
@@ -21,19 +9,23 @@ class Player(abc.ABC):
         self.team = team
 
     @abc.abstractmethod
-    def create_move(self) -> Move:
+    def create_move(self, journal: journals.Journal) -> moves.Move:
         raise NotImplementedError()
 
 
 class ConsolePlayer(Player):
-    INPUT_REGEX = re.compile("([A-Z][0-9]((, )|,| )?){2,}", re.IGNORECASE)
+    INPUT_REGEX = re.compile("([A-Z][0-9](?:(?:, )|,| ))+[A-Z][0-9]", re.IGNORECASE)
     SPLIT_REGEX = re.compile("(?:(?:, )|,| )")
 
-    def create_move(self) -> Move:
-        move_input = input(f"Player {self.team.value} move: ")
-        return self.parse_move_input(move_input)
+    def create_move(self, journal: journals.Journal) -> moves.Move:
+        while True:
+            move_input = input(f"Player {self.team.value} move: ")
+            try:
+                return self.parse_move_input(move_input)
+            except ValueError as e:
+                print(str(e))
 
-    def parse_move_input(self, move_input: str) -> Move:
+    def parse_move_input(self, move_input: str) -> moves.Move:
         if not self.INPUT_REGEX.match(move_input):
             raise ValueError(f"Invalid request: {move_input!r}")
         locations = []
@@ -41,4 +33,4 @@ class ConsolePlayer(Player):
             row_id = int(part[1]) - 1
             col_id = utils.to_int(part[0])
             locations.append((row_id, col_id))
-        return Move(self.team, locations)
+        return moves.Move(self.team, locations)

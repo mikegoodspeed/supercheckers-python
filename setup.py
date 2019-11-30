@@ -12,12 +12,8 @@ def read(file_name: str) -> str:
         return f.read()
 
 
-with open(os.path.join(HERE, PACKAGE, "__meta__.py")) as f:
-    meta: Dict[str, Any] = {}
-    exec(f.read(), {}, meta)
-
-with open(os.path.join(HERE, "README.md")) as f:
-    readme = f.read()
+meta: Dict[str, Any] = {}
+exec(read(os.path.join(PACKAGE, "__meta__.py")), {}, meta)
 
 setup(
     name=PACKAGE,

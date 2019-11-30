@@ -1,8 +1,9 @@
+import copy
 import itertools
 from dataclasses import dataclass
 from typing import List, Optional, Tuple
 
-from . import enums, players, utils
+from . import enums, moves, utils
 
 
 @dataclass
@@ -24,25 +25,18 @@ class Board:
         team_cycle = itertools.cycle(enums.Team.__members__.values())
         for row_id in range(self.MAX_ROW):
             for col_id in range(self.MAX_COL):
-                if not self.in_middle(row_id, col_id):
+                if not utils.in_middle(row_id, col_id):
                     self.grid[row_id][col_id] = Piece(next(team_cycle), (row_id, col_id))
                 else:
                     self.grid[row_id][col_id] = None
 
-    @staticmethod
-    def in_middle(row_id, col_id) -> bool:
-        return (1 < row_id < 6) and (1 < col_id < 6)
-
-    def is_valid(self, move: players.Move) -> bool:
+    def apply(self, move: moves.Move) -> None:
         pass
 
-    def apply(self, move: players.Move) -> None:
-        pass
+    def copy(self) -> "Board":
+        return copy.deepcopy(self)
 
     def __str__(self):
-        def in_middle(rid: int, cid: int) -> bool:
-            return (1 < rid < 6) and (1 <= cid < 6)
-
         column_row = "   " + " ".join(self.COL_NAMES) + " "
         divider_row = "  +" + ("-" * (self.MAX_COL * 2 - 1)) + "+"
 
@@ -54,7 +48,7 @@ class Board:
             for col_id in range(self.MAX_COL):
                 piece = self.grid[row_id][col_id]
                 result += piece.team.value if piece else " "
-                result += "#" if in_middle(row_id, col_id) else "|"
+                result += "#" if utils.in_middle(row_id, col_id, extended=True) else "|"
             result += f" {row_id + 1}\n"
         result += divider_row + "\n"
         result += column_row

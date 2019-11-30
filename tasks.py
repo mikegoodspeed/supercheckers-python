@@ -33,7 +33,7 @@ def format_(ctx):
 
 @invoke.task
 def test(ctx):
-    ctx.run("pytest")
+    ctx.run("pytest", echo=True)
 
 
 @invoke.task

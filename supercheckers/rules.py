@@ -38,9 +38,9 @@ class AlwaysOnBoardRule(Rule):
         board = journal.current_board
         for location in move.locations:
             row_id, col_id = location
-            if not (0 < row_id < board.MAX_ROW):
+            if not (0 <= row_id < board.MAX_ROW):
                 return False
-            if not (0 < col_id < board.MAX_COL):
+            if not (0 <= col_id < board.MAX_COL):
                 return False
         return True
 

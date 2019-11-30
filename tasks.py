@@ -15,6 +15,7 @@ def clean(ctx, all_=False):
 def check(ctx):
     ctx.run(f"isort --check --diff -rc {PACKAGE} tests *.py", echo=True)
     ctx.run(f"black --check --diff -l 120 -t py37 {PACKAGE} tests *.py", echo=True)
+    ctx.run(f"flake8 {PACKAGE} tests *.py", echo=True)
     ctx.run(f"mypy {PACKAGE} tests *.py", echo=True)
 
 

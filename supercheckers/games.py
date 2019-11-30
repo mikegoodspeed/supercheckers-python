@@ -1,18 +1,16 @@
 import itertools
 from dataclasses import dataclass
 
-from .boards import Board
-from .enums import PlayState
-from .players import Player
+from . import boards, enums, players
 
 
 @dataclass
 class GameState:
-    play_state: PlayState = PlayState.NOT_STARTED
+    play_state: enums.PlayState = enums.PlayState.NOT_STARTED
 
 
 class Game:
-    def __init__(self, state: GameState, board: Board, player_1: Player, player_2: Player):
+    def __init__(self, state: GameState, board: boards.Board, player_1: players.Player, player_2: players.Player):
         self.state = state
         self.board = board
         self.player_1 = player_1
@@ -22,12 +20,12 @@ class Game:
 
     @property
     def is_active(self) -> bool:
-        return self.state.play_state == PlayState.IN_PROGRESS
+        return self.state.play_state == enums.PlayState.IN_PROGRESS
 
     def begin(self) -> None:
         print("Beginning game...")
 
-        self.state.play_state = PlayState.IN_PROGRESS
+        self.state.play_state = enums.PlayState.IN_PROGRESS
         print(self.board)
 
     def take_turn(self) -> None:
@@ -42,10 +40,10 @@ class Game:
     def end(self, error: bool = False) -> None:
         if error:
             print("Unhandled error.")
-            self.state.play_state = PlayState.ERROR
+            self.state.play_state = enums.PlayState.ERROR
         else:
             print("Game over.")
-            self.state.play_state = PlayState.COMPLETE
+            self.state.play_state = enums.PlayState.COMPLETE
 
     def __enter__(self):
         self.begin()

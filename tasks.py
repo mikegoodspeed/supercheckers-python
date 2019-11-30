@@ -7,6 +7,8 @@ PACKAGE = "supercheckers"
 def clean(ctx, all_=False):
     ctx.run("rm -rf .mypy_cache")
     ctx.run("rm -rf .pytest_cache")
+    ctx.run("rm -rf build")
+    ctx.run("rm -rf dist")
     if all_:
         ctx.run(f"rm -rf {PACKAGE}.egg-info")
 
@@ -28,3 +30,8 @@ def format_(ctx):
 @invoke.task
 def test(ctx):
     ctx.run("pytest")
+
+
+@invoke.task
+def build(ctx):
+    ctx.run("python setup.py sdist bdist_wheel")

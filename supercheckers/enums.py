@@ -28,6 +28,13 @@ class MoveType(enum.IntEnum):
 
     @staticmethod
     def from_distance(distance: int) -> "MoveType":
+        """
+        Create a MoveType from a distance between two locations.
+
+        If the distance is unknown, return MoveType.UNKNOWN
+
+        :return: a MoveType
+        """
         try:
             return MoveType(distance)
         except ValueError:

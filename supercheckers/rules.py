@@ -1,26 +1,47 @@
 import abc
 import inspect
 import sys
-from typing import List
+from typing import Iterable
 
 from . import enums, journals, moves, utils
 
 
 class Rule(abc.ABC):
+    """An abstract base class that represents the interface for a rule."""
+
     @property
     @abc.abstractmethod
     def message(self) -> str:
+        """
+        Return the message for the rule, suitable to be displayed when the rule fails.
+
+        :return: a message string
+        """
         raise NotImplementedError()
 
     @abc.abstractmethod
     def is_valid(self, journal: journals.Journal, move: moves.Move) -> bool:
+        """
+        Validate a move based on the Game Journal.
+
+        :param journal: a Game Journal
+        :param move: a Move to validate
+        :return: True if the Move is valid
+        """
         raise NotImplementedError()
 
     def __repr__(self) -> str:
+        """
+        Return the internal representation of this Rule.
+
+        :return: a repr string
+        """
         return f"{self.__class__.__qualname__}()"
 
 
 class AtLeastTwoLocationsRule(Rule):
+    """Rule requiring a Move to have at least two locations."""
+
     @property
     def message(self) -> str:
         return "Your move must contain at least two locations."
@@ -30,6 +51,8 @@ class AtLeastTwoLocationsRule(Rule):
 
 
 class ExactlyTwoLocationsRule(Rule):
+    """Rule requiring a Move with two locations has either a slide or a jump."""
+
     @property
     def message(self) -> str:
         return "A move with two locations must be either a slide (one space) or a jump (two spaces) in a straight line."
@@ -43,6 +66,8 @@ class ExactlyTwoLocationsRule(Rule):
 
 
 class MoreThanTwoLocationsRule(Rule):
+    """Rule requiring a Move with more than two locations has only jumps."""
+
     @property
     def message(self) -> str:
         return "A move with more than two locations must contain only jumps (two spaces)."
@@ -60,6 +85,8 @@ class MoreThanTwoLocationsRule(Rule):
 
 
 class AlwaysOnTheBoardRule(Rule):
+    """Rule requiring a Move never leaves the board."""
+
     @property
     def message(self) -> str:
         return "Your piece must remain on the board at all times."
@@ -76,6 +103,8 @@ class AlwaysOnTheBoardRule(Rule):
 
 
 class CorrectTeamRule(Rule):
+    """Rule requiring a Move manipulates a piece from the correct team."""
+
     @property
     def message(self) -> str:
         return "You must move a piece from your own team."
@@ -93,6 +122,8 @@ class CorrectTeamRule(Rule):
 
 
 class IntermediateLandingLocationsRule(Rule):
+    """Rule requiring a Move's intermediate locations be empty."""
+
     @property
     def message(self) -> str:
         return "All intermediate landing locations must be empty."
@@ -108,6 +139,8 @@ class IntermediateLandingLocationsRule(Rule):
 
 
 class FinalLandingLocationRule(Rule):
+    """Rule requiring a Move's final location be empty."""
+
     @property
     def message(self) -> str:
         return "Your final landing location must be empty."
@@ -119,6 +152,8 @@ class FinalLandingLocationRule(Rule):
 
 
 class FirstFourMovesRule(Rule):
+    """Rule requiring the first four Moves be slides into the middle of the board."""
+
     @property
     def message(self) -> str:
         return "For your first two moves, you must slide into the middle."
@@ -138,6 +173,8 @@ class FirstFourMovesRule(Rule):
 
 
 class JumpOverAPieceRule(Rule):
+    """Rule requiring a Move's jumps to occur over a piece."""
+
     @property
     def message(self) -> str:
         return "All jumps must be over a piece."
@@ -160,33 +197,20 @@ class JumpOverAPieceRule(Rule):
         return True
 
 
-class Result:
-    def __init__(self, failed_rules: List[Rule]):
-        self.failed_rules = failed_rules
+def all_rules() -> Iterable[Rule]:
+    """
+    Return all instances of Rules defined in this module in alphabetical order by class name.
 
-    @property
-    def is_valid(self) -> bool:
-        return not bool(self.failed_rules)
+    :return: an Iterable of Rules
+    """
 
-    def __repr__(self) -> str:
-        return f"{self.__class__.__qualname__}({self.failed_rules!r})"
-
-
-class Verifier:
-    def __init__(self, rules: List[Rule]):
-        assert rules
-        self.rules = rules
-
-    def is_valid(self, journal: journals.Journal, move: moves.Move) -> Result:
-        invalid_rules = []
-        for rule in self.rules:
-            if not rule.is_valid(journal, move):
-                invalid_rules.append(rule)
-        return Result(invalid_rules)
-
-
-def all_rules() -> List[Rule]:
     def is_concrete_rule_class(obj):
+        """
+        Determine if object is a concrete class that is a subclass of Rule.
+
+        :param obj: any object
+        :return: True if object is a concrete class that is a subclass of Rule
+        """
         return inspect.isclass(obj) and not inspect.isabstract(obj) and issubclass(obj, Rule)
 
     current_module = sys.modules[__name__]

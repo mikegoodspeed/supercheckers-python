@@ -5,8 +5,9 @@ from .games import Game, GameState
 from .journals import Journal
 from .moves import Move
 from .players import ConsolePlayer, Player
-from .rules import Result, Rule, Verifier, all_rules
+from .rules import Rule, all_rules
 from .utils import Description, in_middle, to_char, to_int
+from .verifiers import Result, Verifier
 
 """
 # Generate all script

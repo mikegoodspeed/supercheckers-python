@@ -42,13 +42,6 @@ def test_in_middle(row_id, col_id):
     assert utils.in_middle((row_id, col_id)) is expected
 
 
-@pytest.mark.parametrize("row_id", [0, 1, 2, 3, 4, 5, 6, 7, 8])
-@pytest.mark.parametrize("col_id", [0, 1, 2, 3, 4, 5, 6, 7, 8])
-def test_in_middle_extended(row_id, col_id):
-    expected = (2 <= row_id <= 5) and (1 <= col_id <= 5)
-    assert utils.in_middle((row_id, col_id), extended=True) is expected
-
-
 @pytest.mark.parametrize(
     "value, expected", [("A", 0), ("B", 1), ("C", 2), ("D", 3), ("E", 4), ("F", 5), ("G", 6), ("H", 7)],
 )
@@ -63,6 +56,8 @@ def test_to_int_lower(value, expected):
     assert utils.to_int(value) == expected
 
 
-@pytest.mark.parametrize("value, expected", [(0, "A")])
+@pytest.mark.parametrize(
+    "value, expected", [(0, "A"), (1, "B"), (2, "C"), (3, "D"), (4, "E"), (5, "F"), (6, "G"), (7, "H")]
+)
 def test_to_char(value, expected):
     assert utils.to_char(value) == expected

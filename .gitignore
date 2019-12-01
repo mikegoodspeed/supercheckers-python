@@ -24,20 +24,20 @@
 # Include directories
 !*/
 
-# Except .idea/
-.idea/
+# Except .idea
+.idea
 
-# Except .mypy_cache/
-.mypy_cache/
+# Except .mypy_cache
+.mypy_cache
 
-# Except .pytest_cache/
-.pytest_cache/
+# Except .pytest_cache
+.pytest_cache
 
 # Except build
-build/
+build
 
 # Except dist
-dist/
+dist
 
 # Except *.egg-info/
-*.egg-info/
+*.egg-info

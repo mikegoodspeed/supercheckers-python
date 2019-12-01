@@ -14,16 +14,16 @@ class Player(abc.ABC):
 
 
 class ConsolePlayer(Player):
-    INPUT_REGEX = re.compile("([A-Z][0-9](?:(?:, )|,| ))+[A-Z][0-9]", re.IGNORECASE)
-    SPLIT_REGEX = re.compile("(?:(?:, )|,| )")
+    INPUT_REGEX = re.compile("^([A-Z][0-9][, ] *)+[A-Z][0-9]$", re.IGNORECASE)
+    SPLIT_REGEX = re.compile("[, ] *")
 
     def create_move(self, journal: journals.Journal) -> moves.Move:
         while True:
             move_input = input(f"Player {self.team.value} move: ")
             try:
-                return self.parse_move_input(move_input)
+                return self.parse_move_input(move_input.strip(" "))
             except ValueError as e:
-                print(str(e))
+                print("ERROR:", str(e))
 
     def parse_move_input(self, move_input: str) -> moves.Move:
         if not self.INPUT_REGEX.match(move_input):

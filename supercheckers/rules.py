@@ -32,7 +32,7 @@ class AtLeastTwoLocationsRule(Rule):
 class ExactlyTwoLocationsRule(Rule):
     @property
     def message(self) -> str:
-        return "A move with two locations must be either a slide (one space) or a jump (two spaces)."
+        return "A move with two locations must be either a slide (one space) or a jump (two spaces) in a straight line."
 
     def is_valid(self, journal: journals.Journal, move: moves.Move) -> bool:
         if len(move) != 2:
@@ -92,10 +92,10 @@ class CorrectTeamRule(Rule):
         return True
 
 
-class IntermittentEmptySpacesRule(Rule):
+class IntermediateLandingLocationsRule(Rule):
     @property
     def message(self) -> str:
-        return "All intermittent locations must be empty."
+        return "All intermediate landing locations must be empty."
 
     def is_valid(self, journal: journals.Journal, move: moves.Move) -> bool:
         if len(move) <= 2:
@@ -107,15 +107,57 @@ class IntermittentEmptySpacesRule(Rule):
         return True
 
 
-class EndOnEmptyRule(Rule):
+class FinalLandingLocationRule(Rule):
     @property
     def message(self) -> str:
-        return "You must land on an empty location."
+        return "Your final landing location must be empty."
 
     def is_valid(self, journal: journals.Journal, move: moves.Move) -> bool:
         if len(move) <= 1:
             return True
         return journal.current_board[move.locations[-1]] is None
+
+
+class FirstFourMovesRule(Rule):
+    @property
+    def message(self) -> str:
+        return "For your first two moves, you must slide into the middle."
+
+    def is_valid(self, journal: journals.Journal, move: moves.Move) -> bool:
+        if journal.current_turn_number > 4:
+            return True
+        if len(move) != 2:
+            return False
+        src_loc, dst_loc = move.locations
+        description = utils.compare(src_loc, dst_loc)
+        if description.move_type != enums.MoveType.SLIDE:
+            return False
+        if not utils.in_middle(dst_loc):
+            return False
+        return True
+
+
+class JumpOverAPieceRule(Rule):
+    @property
+    def message(self) -> str:
+        return "All jumps must be over a piece."
+
+    def is_valid(self, journal: journals.Journal, move: moves.Move) -> bool:
+        team = journal.current_team
+        board = journal.current_board
+        for i in range(1, len(move.locations)):
+            src_loc = move.locations[i - 1]
+            dst_loc = move.locations[i]
+            description = utils.compare(src_loc, dst_loc)
+            if description.move_type == enums.MoveType.JUMP:
+                jmp_loc = description.jmp_loc
+                assert jmp_loc
+                jmp_piece = board[jmp_loc]
+                if jmp_piece is None:
+                    return False
+                if jmp_piece.team != team:
+                    board[jmp_loc] = None
+        return True
 
 
 class Result:
@@ -144,8 +186,8 @@ class Verifier:
 
 
 def all_rules() -> List[Rule]:
-    def is_concrete_rule(obj):
+    def is_concrete_rule_class(obj):
         return inspect.isclass(obj) and not inspect.isabstract(obj) and issubclass(obj, Rule)
 
     current_module = sys.modules[__name__]
-    return [member() for name, member in inspect.getmembers(current_module, is_concrete_rule)]
+    return [member() for name, member in inspect.getmembers(current_module, is_concrete_rule_class)]

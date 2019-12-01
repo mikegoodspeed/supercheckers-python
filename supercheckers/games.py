@@ -17,10 +17,13 @@ class GameState:
     def set_play_state(self, journal: journals.Journal) -> None:
         if journal.current_turn_number > 4:
             board = journal.current_board
-            winner = board.get_winner()
-            if winner:
+            teams = board.get_middle_teams()
+            if not teams:
                 self.play_state = enums.PlayState.COMPLETE
-                self.winner = winner
+                self.winner = None
+            elif len(teams) == 1:
+                self.play_state = enums.PlayState.COMPLETE
+                self.winner = teams.pop()
 
 
 class Game:
@@ -30,7 +33,7 @@ class Game:
         self.verifier = verifier
 
     @property
-    def is_active(self) -> bool:
+    def in_progress(self) -> bool:
         return self.state.play_state == enums.PlayState.IN_PROGRESS
 
     def begin(self) -> None:
@@ -46,20 +49,22 @@ class Game:
             if result.is_valid:
                 break
             for rule in result.failed_rules:
-                print(rule.message)
+                print("ERROR:", rule.message)
         self.journal.apply(move)
         self.state.set_play_state(self.journal)
         print(self.journal.current_board)
 
     def end(self, error: bool = False) -> None:
         if error:
-            print("Unhandled error.")
+            print("Game over: unhandled error.")
             self.state.play_state = enums.PlayState.ERROR
+        elif self.in_progress:
+            print("Game over, game aborted.")
+            self.state.play_state = enums.PlayState.COMPLETE
         elif self.state.winner:
             print(f"Game over, {self.state.winner.value} wins!")
         else:
-            print("Game aborted.")
-            self.state.play_state = enums.PlayState.COMPLETE
+            print("Game over, tie game.")
 
     def __enter__(self):
         self.begin()

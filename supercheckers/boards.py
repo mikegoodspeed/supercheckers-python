@@ -1,7 +1,7 @@
 import copy
 import itertools
 from dataclasses import dataclass
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, Set
 
 from . import enums, moves, utils
 
@@ -49,14 +49,14 @@ class Board:
             if jmp_piece.team != piece.team:
                 self[description.jmp_loc] = None
 
-    def get_winner(self) -> Optional[enums.Team]:
+    def get_middle_teams(self) -> Set[enums.Team]:
         teams = set()
         for location in itertools.product(range(self.MAX_ROW), range(self.MAX_COL)):
             if utils.in_middle(location):
                 piece = self[location]
                 if piece:
                     teams.add(piece.team)
-        return teams.pop() if len(teams) == 1 else None
+        return teams
 
     def copy(self) -> "Board":
         return copy.deepcopy(self)

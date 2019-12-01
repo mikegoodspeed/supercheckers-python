@@ -12,7 +12,7 @@ def main():
     journal = sc.Journal(sc.Board())
     verifier = sc.Verifier(sc.all_rules())
     with sc.Game(state, journal, verifier) as game:
-        while game.is_active:
+        while game.in_progress:
             game.take_turn()
 
 

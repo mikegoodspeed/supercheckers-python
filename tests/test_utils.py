@@ -7,28 +7,36 @@ from supercheckers import utils
 @pytest.mark.parametrize(
     "src_loc, dst_loc, direction, move_type, jmp_loc",
     [
-        ((5, 5), (7, 5), sc.Direction.NORTH, sc.MoveType.JUMP, (6, 5)),
-        ((5, 5), (3, 5), sc.Direction.SOUTH, sc.MoveType.JUMP, (4, 5)),
-        ((5, 5), (5, 7), sc.Direction.EAST, sc.MoveType.JUMP, (5, 6)),
-        ((5, 5), (5, 3), sc.Direction.WEST, sc.MoveType.JUMP, (5, 4)),
-        ((5, 5), (6, 5), sc.Direction.NORTH, sc.MoveType.SLIDE, None),
-        ((5, 5), (4, 5), sc.Direction.SOUTH, sc.MoveType.SLIDE, None),
-        ((5, 5), (5, 6), sc.Direction.EAST, sc.MoveType.SLIDE, None),
-        ((5, 5), (5, 4), sc.Direction.WEST, sc.MoveType.SLIDE, None),
-        ((5, 5), (5, 5), sc.Direction.UNKNOWN, sc.MoveType.UNKNOWN, None),
-        ((5, 5), (6, 6), sc.Direction.UNKNOWN, sc.MoveType.UNKNOWN, None),
-        ((5, 5), (4, 4), sc.Direction.UNKNOWN, sc.MoveType.UNKNOWN, None),
-        ((5, 5), (6, 4), sc.Direction.UNKNOWN, sc.MoveType.UNKNOWN, None),
-        ((5, 5), (4, 6), sc.Direction.UNKNOWN, sc.MoveType.UNKNOWN, None),
+        ((4, 4), (6, 4), sc.Direction.NORTH, sc.MoveType.JUMP, (5, 4)),
+        ((4, 4), (2, 4), sc.Direction.SOUTH, sc.MoveType.JUMP, (3, 4)),
+        ((4, 4), (4, 6), sc.Direction.EAST, sc.MoveType.JUMP, (4, 5)),
+        ((4, 4), (4, 2), sc.Direction.WEST, sc.MoveType.JUMP, (4, 3)),
+        ((2, 4), (4, 4), sc.Direction.NORTH, sc.MoveType.JUMP, (3, 4)),
+        ((2, 4), (0, 4), sc.Direction.SOUTH, sc.MoveType.JUMP, (1, 4)),
+        ((2, 4), (2, 6), sc.Direction.EAST, sc.MoveType.JUMP, (2, 5)),
+        ((2, 4), (2, 2), sc.Direction.WEST, sc.MoveType.JUMP, (2, 3)),
+        ((4, 4), (5, 4), sc.Direction.NORTH, sc.MoveType.SLIDE, None),
+        ((4, 4), (3, 4), sc.Direction.SOUTH, sc.MoveType.SLIDE, None),
+        ((4, 4), (4, 5), sc.Direction.EAST, sc.MoveType.SLIDE, None),
+        ((4, 4), (4, 3), sc.Direction.WEST, sc.MoveType.SLIDE, None),
+        ((0, 0), (7, 0), sc.Direction.NORTH, sc.MoveType.UNKNOWN, None),
+        ((7, 0), (0, 0), sc.Direction.SOUTH, sc.MoveType.UNKNOWN, None),
+        ((0, 0), (0, 7), sc.Direction.EAST, sc.MoveType.UNKNOWN, None),
+        ((0, 7), (0, 0), sc.Direction.WEST, sc.MoveType.UNKNOWN, None),
+        ((4, 4), (4, 4), sc.Direction.UNKNOWN, sc.MoveType.UNKNOWN, None),
+        ((4, 4), (5, 5), sc.Direction.UNKNOWN, sc.MoveType.UNKNOWN, None),
+        ((4, 4), (3, 3), sc.Direction.UNKNOWN, sc.MoveType.UNKNOWN, None),
+        ((4, 4), (5, 3), sc.Direction.UNKNOWN, sc.MoveType.UNKNOWN, None),
+        ((4, 4), (3, 5), sc.Direction.UNKNOWN, sc.MoveType.UNKNOWN, None),
     ],
 )
-def test_compare_east(src_loc, dst_loc, direction, move_type, jmp_loc):
+def test_compare(src_loc, dst_loc, direction, move_type, jmp_loc):
     result = utils.compare(src_loc, dst_loc)
     assert result == utils.Description(direction, move_type, jmp_loc)
 
 
-@pytest.mark.parametrize("row_id", [0, 1, 2, 3, 4, 5, 6, 7, 8])
-@pytest.mark.parametrize("col_id", [0, 1, 2, 3, 4, 5, 6, 7, 8])
+@pytest.mark.parametrize("row_id", [0, 1, 2, 3, 4, 5, 6, 7])
+@pytest.mark.parametrize("col_id", [0, 1, 2, 3, 4, 5, 6, 7])
 def test_in_middle(row_id, col_id):
     expected = (2 <= row_id <= 5) and (2 <= col_id <= 5)
     assert utils.in_middle((row_id, col_id)) is expected

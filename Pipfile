@@ -18,8 +18,5 @@ click = "*"
 e1839a8 = {editable = true,path = "."}
 supercheckers = {editable = true,path = "."}
 
-[requires]
-python_version = "3.7"
-
 [pipenv]
 allow_prereleases = true

@@ -1,6 +1,6 @@
 from .__meta__ import __author__, __description__, __license__, __title__, __version__
 from .boards import Board, Piece
-from .enums import Direction, PlayState, Team
+from .enums import Direction, MoveType, PlayState, Team
 from .games import Game, GameState
 from .journals import Journal
 from .moves import Move
@@ -24,6 +24,7 @@ __all__ = [
     "GameState",
     "Journal",
     "Move",
+    "MoveType",
     "Piece",
     "PlayState",
     "Player",

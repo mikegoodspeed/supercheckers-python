@@ -3,7 +3,7 @@ import inspect
 import sys
 from typing import List
 
-from . import journals, moves
+from . import enums, journals, moves, utils
 
 
 class Rule(abc.ABC):
@@ -20,16 +20,46 @@ class Rule(abc.ABC):
         return f"{self.__class__.__qualname__}()"
 
 
-class NumLocationsRule(Rule):
+class AtLeastTwoLocationsRule(Rule):
     @property
     def message(self) -> str:
-        return "Your move must contain two or more locations."
+        return "Your move must contain at least two locations."
 
     def is_valid(self, journal: journals.Journal, move: moves.Move) -> bool:
-        return len(move.locations) >= 2
+        return len(move) >= 2
 
 
-class AlwaysOnBoardRule(Rule):
+class ExactlyTwoLocationsRule(Rule):
+    @property
+    def message(self) -> str:
+        return "A move with two locations must be either a slide (one space) or a jump (two spaces)."
+
+    def is_valid(self, journal: journals.Journal, move: moves.Move) -> bool:
+        if len(move) != 2:
+            return True
+        src_loc, dst_loc = move.locations
+        description = utils.compare(src_loc, dst_loc)
+        return description.move_type is not enums.MoveType.UNKNOWN
+
+
+class MoreThanTwoLocationsRule(Rule):
+    @property
+    def message(self) -> str:
+        return "A move with more than two locations must contain only jumps (two spaces)."
+
+    def is_valid(self, journal: journals.Journal, move: moves.Move) -> bool:
+        if len(move) <= 2:
+            return True
+        for i in range(1, len(move)):
+            src_loc = move.locations[i - 1]
+            dst_loc = move.locations[i]
+            description = utils.compare(src_loc, dst_loc)
+            if description.move_type != enums.MoveType.JUMP:
+                return False
+        return True
+
+
+class AlwaysOnTheBoardRule(Rule):
     @property
     def message(self) -> str:
         return "Your piece must remain on the board at all times."
@@ -43,6 +73,49 @@ class AlwaysOnBoardRule(Rule):
             if not (0 <= col_id < board.MAX_COL):
                 return False
         return True
+
+
+class CorrectTeamRule(Rule):
+    @property
+    def message(self) -> str:
+        return "You must move a piece from your own team."
+
+    def is_valid(self, journal: journals.Journal, move: moves.Move) -> bool:
+        board = journal.current_board
+        if not move.locations:
+            return False
+        piece = board[move.locations[0]]
+        if not piece:
+            return False
+        if piece.team != journal.current_team:
+            return False
+        return True
+
+
+class IntermittentEmptySpacesRule(Rule):
+    @property
+    def message(self) -> str:
+        return "All intermittent locations must be empty."
+
+    def is_valid(self, journal: journals.Journal, move: moves.Move) -> bool:
+        if len(move) <= 2:
+            return True
+        board = journal.current_board
+        for location in move.locations[1:-1]:
+            if board[location] is not None:
+                return False
+        return True
+
+
+class EndOnEmptyRule(Rule):
+    @property
+    def message(self) -> str:
+        return "You must land on an empty location."
+
+    def is_valid(self, journal: journals.Journal, move: moves.Move) -> bool:
+        if len(move) <= 1:
+            return True
+        return journal.current_board[move.locations[-1]] is None
 
 
 class Result:

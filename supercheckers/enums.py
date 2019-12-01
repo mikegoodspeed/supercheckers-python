@@ -15,8 +15,20 @@ class Team(enum.Enum):
 
 class Direction(enum.Enum):
     UNKNOWN = enum.auto()
-    IDENTICAL = enum.auto()
     NORTH = enum.auto()
     SOUTH = enum.auto()
     EAST = enum.auto()
     WEST = enum.auto()
+
+
+class MoveType(enum.IntEnum):
+    UNKNOWN = 0
+    SLIDE = 1
+    JUMP = 2
+
+    @staticmethod
+    def from_distance(distance: int) -> "MoveType":
+        try:
+            return MoveType(distance)
+        except ValueError:
+            return MoveType.UNKNOWN

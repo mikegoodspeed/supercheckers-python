@@ -16,7 +16,7 @@ def clean(ctx, all_=False):
 @invoke.task
 def check(ctx):
     autoflake = "autoflake -r -c --remove-all-unused-imports --ignore-init-module-imports --remove-duplicate-keys"
-    ctx.run(f"{autoflake} {PACKAGE}", echo=True)
+    ctx.run(f"{autoflake} {PACKAGE} tests *.py", echo=True)
     ctx.run(f"flake8 {PACKAGE} tests *.py", echo=True)
     ctx.run(f"isort --check --diff -rc {PACKAGE} tests *.py", echo=True)
     ctx.run(f"black --check --diff -l 120 -t py37 {PACKAGE} tests *.py", echo=True)
@@ -34,6 +34,11 @@ def format_(ctx):
 @invoke.task
 def test(ctx):
     ctx.run("pytest", echo=True)
+
+
+@invoke.task
+def run(ctx):
+    ctx.run("supercheckers", pty=True, echo=True)
 
 
 @invoke.task

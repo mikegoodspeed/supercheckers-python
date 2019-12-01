@@ -9,11 +9,11 @@ class Journal:
 
     @property
     def current_turn_number(self) -> int:
-        return len(self._log) + 1
+        return len(self._log)
 
     @property
     def current_team(self) -> enums.Team:
-        return enums.Team.ONE if self.current_turn_number % 2 == 0 else enums.Team.TWO
+        return enums.Team.ONE if self.current_turn_number % 2 != 0 else enums.Team.TWO
 
     @property
     def current_board(self) -> boards.Board:

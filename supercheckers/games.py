@@ -1,4 +1,3 @@
-import itertools
 from dataclasses import dataclass
 from typing import Optional
 
@@ -13,7 +12,7 @@ class GameState:
     winner: Optional[enums.Team] = None
 
     def get_current_player(self, journal: journals.Journal) -> players.Player:
-        return self.player_1 if journal.current_turn_number % 2 == 0 else self.player_2
+        return self.player_1 if journal.current_turn_number % 2 != 0 else self.player_2
 
     def set_play_state(self, journal: journals.Journal) -> None:
         if journal.current_turn_number > 4:

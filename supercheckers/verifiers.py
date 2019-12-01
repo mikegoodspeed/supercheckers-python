@@ -6,7 +6,7 @@ from . import journals, moves, rules
 
 @dataclass
 class Result:
-    """A Result of a Verifier's Move validity check."""
+    """A Result of a Verifier's Move verification check."""
 
     failed_rules: Iterable[rules.Rule]
 
@@ -27,9 +27,9 @@ class Verifier:
         assert all_rules
         self.all_rules = all_rules
 
-    def validate(self, journal: journals.Journal, move: moves.Move) -> Result:
+    def verify(self, journal: journals.Journal, move: moves.Move) -> Result:
         """
-        Given a Journal, Validate a Move against all rules.
+        Given a Journal, verify a Move against all rules.
 
         :param journal: a Game Journal
         :param move: a Move to validate

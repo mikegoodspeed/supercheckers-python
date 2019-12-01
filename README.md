@@ -24,7 +24,8 @@ jump your own pieces as well (without capturing them, of course).
 Installation
 ------------
 
-You will need [python3](https://www.python.org) and [pipenv](https://pipenv.kennethreitz.org/en/latest/) to play. 
+You will need at least version 3.7 of [python](https://www.python.org) and 
+[pipenv](https://pipenv.kennethreitz.org/en/latest/) to play. 
 
 1. To install `python3` and `pipenv`, use [homebrew](https://github.com/Homebrew/brew) for 
 [macOS](https://www.apple.com/macos/).

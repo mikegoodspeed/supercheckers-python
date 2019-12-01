@@ -73,7 +73,7 @@ class Game:
         player = self.state.current_player
         while True:
             move = player.create_move(self.state.journal.copy())
-            result = self.verifier.validate(self.state.journal, move)
+            result = self.verifier.verify(self.state.journal, move)
             if result.is_valid:
                 break
             for rule in result.failed_rules:

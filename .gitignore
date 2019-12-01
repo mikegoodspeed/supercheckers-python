@@ -39,5 +39,5 @@ build
 # Except dist
 dist
 
-# Except *.egg-info/
+# Except *.egg-info
 *.egg-info

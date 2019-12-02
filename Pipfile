@@ -8,9 +8,10 @@ setuptools = "*"
 invoke = "*"
 isort = "*"
 black = "*"
-flake8 = "*"
-mypy = "*"
 autoflake = "*"
+flake8 = "*"
+flake8-bugbear = "*"
+mypy = "*"
 pytest = "*"
 pytest-coverage = "*"
 
@@ -18,5 +19,3 @@ pytest-coverage = "*"
 click = "*"
 supercheckers = {editable = true,path = "."}
 
-[pipenv]
-allow_prereleases = true

@@ -12,6 +12,7 @@ flake8 = "*"
 mypy = "*"
 autoflake = "*"
 pytest = "*"
+pytest-coverage = "*"
 
 [packages]
 click = "*"

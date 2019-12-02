@@ -1,8 +1,20 @@
 Supercheckers (Python)
 ======================
 
-Supercheckers is a board game first published in 1986 by [Christopher Wroth](https://boardgamegeek.com/boardgamedesigner/2937/christopher-wroth)
-branded as [King's Court](https://boardgamegeek.com/boardgame/5157/kings-court) and published by 
+[![licence](https://img.shields.io/badge/license-MIT-green)](https://choosealicense.com/licenses/mit/)
+[![python](https://img.shields.io/badge/python-3.7-blue)](https://www.python.org)
+[![environment](https://img.shields.io/badge/environment-pipenv-blue)](https://pipenv.kennethreitz.org/)
+![style](https://img.shields.io/badge/style-black%20%7C%20isort%20%7C%20flake8-blue)
+[![typing](https://img.shields.io/badge/typing-mypy-blue)](http://mypy-lang.org)
+[![cli](https://img.shields.io/badge/cli-click-blue)](https://click.palletsprojects.com/)
+[![build](https://img.shields.io/badge/build-pyinvoke-blue)](https://www.pyinvoke.org)
+[![testing](https://img.shields.io/badge/testing-pytest-blue)](https://pytest.org)
+
+------------------------------------------------------------------------------------------------------------------------
+
+Supercheckers is a board game first published in 1986 by 
+[Christopher Wroth](https://boardgamegeek.com/boardgamedesigner/2937/christopher-wroth) branded as 
+[King's Court](https://boardgamegeek.com/boardgame/5157/kings-court) and published by 
 [Golden](https://boardgamegeek.com/boardgamepublisher/247/golden), 
 [MW Games](https://boardgamegeek.com/boardgamepublisher/25852/mw-games), 
 [Western Publishing Company](https://boardgamegeek.com/boardgamepublisher/5700/western-publishing-company).
@@ -69,6 +81,51 @@ To start the game, simply run `supercheckers` or to make sure you're running it 
 $ pipenv run supercheckers
 ```
 
+```
+Beginning game...
+   A B C D E F G H
+  +---------------+
+8 |X|O|X|O|X|O|X|O| 8
+7 |O|X|O|X|O|X|O|X| 7
+6 |X|O# # # # #X|O| 6
+5 |O|X# # # # #O|X| 5
+4 |X|O# # # # #X|O| 4
+3 |O|X# # # # #O|X| 3
+2 |X|O|X|O|X|O|X|O| 2
+1 |O|X|O|X|O|X|O|X| 1
+  +---------------+
+   A B C D E F G H
+Player X move: c2 c3
+   A B C D E F G H
+  +---------------+
+8 |X|O|X|O|X|O|X|O| 8
+7 |O|X|O|X|O|X|O|X| 7
+6 |X|O# # # # #X|O| 6
+5 |O|X# # # # #O|X| 5
+4 |X|O# # # # #X|O| 4
+3 |O|X#X# # # #O|X| 3
+2 |X|O| |O|X|O|X|O| 2
+1 |O|X|O|X|O|X|O|X| 1
+  +---------------+
+   A B C D E F G H
+Player O move: d2 d4
+ERROR: For your first two moves, you must slide into the middle.
+ERROR: All jumps must be over a piece.
+Player O move: d2 d3
+   A B C D E F G H
+  +---------------+
+8 |X|O|X|O|X|O|X|O| 8
+7 |O|X|O|X|O|X|O|X| 7
+6 |X|O# # # # #X|O| 6
+5 |O|X# # # # #O|X| 5
+4 |X|O# # # # #X|O| 4
+3 |O|X#X#O# # #O|X| 3
+2 |X|O| | |X|O|X|O| 2
+1 |O|X|O|X|O|X|O|X| 1
+  +---------------+
+   A B C D E F G H
+```
+
 Develop
 -------
 
@@ -91,7 +148,7 @@ Available tasks:
 
   build    Build a package.
   check    Check for style and static typing errors.
-  clean    Clean all unused files.
+  clean    Clean unused files.
   format   Format code to adhere to best style guidelines.
   run      Run the program.
   test     Run tests.

@@ -5,9 +5,10 @@ PACKAGE = "supercheckers"
 
 @invoke.task
 def clean(ctx, all_=False):
-    """Clean all unused files."""
+    """Clean unused files."""
     ctx.run("rm -rf .mypy_cache")
     ctx.run("rm -rf .pytest_cache")
+    ctx.run("rm -f .coverage")
     ctx.run("rm -rf build")
     ctx.run("rm -rf dist")
     if all_:
@@ -37,7 +38,7 @@ def format_(ctx):
 @invoke.task
 def test(ctx):
     """Run tests."""
-    ctx.run("pytest", echo=True)
+    ctx.run(f"pytest --cov={PACKAGE} --cov-fail-under=49", echo=True)
 
 
 @invoke.task

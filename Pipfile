@@ -16,7 +16,6 @@ pytest-coverage = "*"
 
 [packages]
 click = "*"
-e1839a8 = {editable = true,path = "."}
 supercheckers = {editable = true,path = "."}
 
 [pipenv]

@@ -1,11 +1,11 @@
 Supercheckers (Python)
 ======================
 
-[![licence](https://img.shields.io/badge/license-MIT-green)](https://choosealicense.com/licenses/mit/)
+[![licence](https://img.shields.io/badge/license-MIT-blueviolet)](https://choosealicense.com/licenses/mit/)
 [![python](https://img.shields.io/badge/python-3.7-blue)](https://www.python.org)
 [![environment](https://img.shields.io/badge/environment-pipenv-blue)](https://pipenv.kennethreitz.org/)
-![style](https://img.shields.io/badge/style-black%20%7C%20isort%20%7C%20flake8-blue)
-[![typing](https://img.shields.io/badge/typing-mypy-blue)](http://mypy-lang.org)
+[![style](https://img.shields.io/badge/style-black%20%7C%20isort%20%7C%20flake8-black)](https://black.readthedocs.io/)
+[![typing](https://img.shields.io/badge/typing-mypy-blue)](https://mypy.readthedocs.io/)
 [![cli](https://img.shields.io/badge/cli-click-blue)](https://click.palletsprojects.com/)
 [![build](https://img.shields.io/badge/build-pyinvoke-blue)](https://www.pyinvoke.org)
 [![testing](https://img.shields.io/badge/testing-pytest-blue)](https://pytest.org)

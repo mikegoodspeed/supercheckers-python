@@ -43,21 +43,24 @@ def test_in_middle(row_id, col_id):
 
 
 @pytest.mark.parametrize(
-    "value, expected", [("A", 0), ("B", 1), ("C", 2), ("D", 3), ("E", 4), ("F", 5), ("G", 6), ("H", 7)],
+    "value, expected",
+    [("A", 0), ("B", 1), ("C", 2), ("D", 3), ("E", 4), ("F", 5), ("G", 6), ("H", 7)],
 )
 def test_to_int_upper(value, expected):
     assert utils.to_int(value) == expected
 
 
 @pytest.mark.parametrize(
-    "value, expected", [("a", 0), ("b", 1), ("c", 2), ("d", 3), ("e", 4), ("f", 5), ("g", 6), ("h", 7)],
+    "value, expected",
+    [("a", 0), ("b", 1), ("c", 2), ("d", 3), ("e", 4), ("f", 5), ("g", 6), ("h", 7)],
 )
 def test_to_int_lower(value, expected):
     assert utils.to_int(value) == expected
 
 
 @pytest.mark.parametrize(
-    "value, expected", [(0, "A"), (1, "B"), (2, "C"), (3, "D"), (4, "E"), (5, "F"), (6, "G"), (7, "H")]
+    "value, expected",
+    [(0, "A"), (1, "B"), (2, "C"), (3, "D"), (4, "E"), (5, "F"), (6, "G"), (7, "H")],
 )
 def test_to_char(value, expected):
     assert utils.to_char(value) == expected

@@ -3,6 +3,8 @@ from typing import List, Optional, Tuple
 
 from . import boards, enums, moves
 
+JournalEntry = Tuple[Optional[moves.Move], boards.Board]
+
 
 class Journal:
     """A journal of all previous Move and Board states."""
@@ -13,7 +15,7 @@ class Journal:
 
         :param board: a Board to use as the initial state
         """
-        self._log: List[Tuple[Optional[moves.Move], boards.Board]] = [(None, board.copy())]
+        self._log: List[JournalEntry] = [(None, board.copy())]
 
     @property
     def current_turn_number(self) -> int:

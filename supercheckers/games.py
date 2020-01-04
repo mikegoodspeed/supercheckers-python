@@ -21,7 +21,9 @@ class GameState:
 
         :return: a Player
         """
-        return self.player_1 if self.journal.current_turn_number % 2 != 0 else self.player_2
+        if self.journal.current_turn_number % 2 != 0:
+            return self.player_1
+        return self.player_2
 
     def update_play_state(self) -> None:
         """Update the play_state enum based on the state of the game."""
@@ -86,8 +88,8 @@ class Game:
         """
         End a game.
 
-        If this method is called with error = True, then the play state will be set to ERROR.
-        If this method is called while the game is in progress, the game state will be set to COMPLETE.
+        If error is True, then the play state will be set to ERROR.
+        If the game is in progress, the game state will be set to COMPLETE.
 
         :param error: True if an error occurred
         """

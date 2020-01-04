@@ -6,7 +6,9 @@ import supercheckers as sc
 from supercheckers import moves
 
 
-@pytest.mark.parametrize("locations", [[], [sentinel.loc_1], [sentinel.loc_1, sentinel.loc_2]])
+@pytest.mark.parametrize(
+    "locations", [[], [sentinel.loc_1], [sentinel.loc_1, sentinel.loc_2]]
+)
 def test_move_len(locations):
     move = moves.Move(sentinel.team, locations)
     assert len(move) == len(locations)

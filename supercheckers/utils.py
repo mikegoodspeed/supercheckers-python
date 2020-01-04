@@ -6,7 +6,7 @@ from . import enums
 
 @dataclass(frozen=True)
 class Description:
-    """A Description of two locations including a direction, a move_type and a jumped location if applicable."""
+    """A Description of two locations."""
 
     direction: enums.Direction
     move_type: enums.MoveType
@@ -17,9 +17,9 @@ def compare(src_loc: Tuple[int, int], dst_loc: Tuple[int, int]) -> Description:
     """
     Compare the relationship between two locations.
 
-    If the two locations are horizontally or vertically aligned, then the Description will be set with a direction.
-    If the two locations are separated by a slide or a jump, then the Description will be set with a move type.
-    If the two locations are a jump apart, then the Description will be set with a jumped location.
+    If they are aligned horizontal or vertical, then the result will have a direction.
+    If they are separated by a slide or a jump, then the result will have a move type.
+    If they are a jump apart, then the result will have a jumped location.
 
     :param src_loc: a (row_id, col_id) source location
     :param dst_loc: a (row_id, col_id) destination location
@@ -29,14 +29,20 @@ def compare(src_loc: Tuple[int, int], dst_loc: Tuple[int, int]) -> Description:
     dst_row, dst_col = dst_loc
     horizontal = src_row == dst_row
     vertical = src_col == dst_col
-    if horizontal == vertical:  # if all((horizontal, vertical)) or not any((horizontal, vertical))
+    if horizontal == vertical:
         return Description(enums.Direction.UNKNOWN, enums.MoveType.UNKNOWN, None)
     if horizontal:
-        direction = enums.Direction.EAST if src_col < dst_col else enums.Direction.WEST
+        if src_col < dst_col:
+            direction = enums.Direction.EAST
+        else:
+            direction = enums.Direction.WEST
         distance = dst_col - src_col
         jmp_loc = (src_row, src_col + (distance // 2)) if abs(distance) == 2 else None
     else:
-        direction = enums.Direction.NORTH if src_row < dst_row else enums.Direction.SOUTH
+        if src_row < dst_row:
+            direction = enums.Direction.NORTH
+        else:
+            direction = enums.Direction.SOUTH
         distance = dst_row - src_row
         jmp_loc = (src_row + (distance // 2), src_col) if abs(distance) == 2 else None
     move_type = enums.MoveType.from_distance(abs(distance))

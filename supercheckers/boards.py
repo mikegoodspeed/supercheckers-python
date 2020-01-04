@@ -26,7 +26,9 @@ class Board:
 
         :param populate: True if the board should be reset to default position.
         """
-        self._grid: List[List[Optional[Piece]]] = [[None for _ in range(self.MAX_COL)] for _ in range(self.MAX_ROW)]
+        self._grid: List[List[Optional[Piece]]] = [
+            [None for _ in range(self.MAX_COL)] for _ in range(self.MAX_ROW)
+        ]
         if populate:
             self.reset()
 
@@ -37,7 +39,9 @@ class Board:
             next(team_cycle)
             for col_id in range(self.MAX_COL):
                 location = (row_id, col_id)
-                self[location] = None if utils.in_middle(location) else Piece(next(team_cycle))
+                self[location] = (
+                    None if utils.in_middle(location) else Piece(next(team_cycle))
+                )
 
     def apply(self, move: moves.Move) -> None:
         """
@@ -54,7 +58,7 @@ class Board:
 
     def _move(self, src_loc: Tuple[int, int], dst_loc: Tuple[int, int]) -> None:
         """
-        Move from a source location to a destination location, updating pieces as needed.
+        Move from a source location to a destination location.
 
         :param src_loc: a (row_id, col_id) source location
         :param dst_loc: a (row_id, col_id) destination location
@@ -128,7 +132,8 @@ class Board:
 
         :return: an ascii board string
         """
-        column_row = "   " + " ".join(utils.to_char(col_id) for col_id in range(self.MAX_COL)) + " "
+        col_names = [utils.to_char(col_id) for col_id in range(self.MAX_COL)]
+        column_row = "   " + " ".join(col_names) + " "
         divider_row = "  +" + ("-" * (self.MAX_COL * 2 - 1)) + "+"
 
         result = ""

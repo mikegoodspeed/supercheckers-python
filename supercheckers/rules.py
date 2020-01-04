@@ -55,7 +55,10 @@ class ExactlyTwoLocationsRule(Rule):
 
     @property
     def message(self) -> str:
-        return "A move with two locations must be either a slide (one space) or a jump (two spaces) in a straight line."
+        return (
+            "A move with two locations must be either a slide (one space) or a jump "
+            "(two spaces) in a straight line. "
+        )
 
     def is_valid(self, journal: journals.Journal, move: moves.Move) -> bool:
         if len(move) != 2:
@@ -70,7 +73,9 @@ class MoreThanTwoLocationsRule(Rule):
 
     @property
     def message(self) -> str:
-        return "A move with more than two locations must contain only jumps (two spaces)."
+        return (
+            "A move with more than two locations must contain only jumps (two spaces)."
+        )
 
     def is_valid(self, journal: journals.Journal, move: moves.Move) -> bool:
         if len(move) <= 2:
@@ -199,7 +204,7 @@ class JumpOverAPieceRule(Rule):
 
 def all_rules() -> Iterable[Rule]:
     """
-    Return all instances of Rules defined in this module in alphabetical order by class name.
+    Return all instances of Rules defined in this module in alphabetical order.
 
     :return: an Iterable of Rules
     """
@@ -211,7 +216,12 @@ def all_rules() -> Iterable[Rule]:
         :param obj: any object
         :return: True if object is a concrete class that is a subclass of Rule
         """
-        return inspect.isclass(obj) and not inspect.isabstract(obj) and issubclass(obj, Rule)
+        return (
+            inspect.isclass(obj)
+            and not inspect.isabstract(obj)
+            and issubclass(obj, Rule)
+        )
 
     current_module = sys.modules[__name__]
-    return [member() for name, member in inspect.getmembers(current_module, is_concrete_rule_class)]
+    rule_classes = inspect.getmembers(current_module, is_concrete_rule_class)
+    return [rule_class() for name, rule_class in rule_classes]

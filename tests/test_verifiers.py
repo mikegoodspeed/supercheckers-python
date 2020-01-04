@@ -20,7 +20,9 @@ def verifier(mock_all_rules):
     return verifiers.Verifier(mock_all_rules)
 
 
-@pytest.mark.parametrize("failed_rules, expected", [([], True), ([sentinel.rule_1], False)])
+@pytest.mark.parametrize(
+    "failed_rules, expected", [([], True), ([sentinel.rule_1], False)]
+)
 def test_result_is_valid(failed_rules, expected):
     assert verifiers.Result(failed_rules).is_valid is expected
 

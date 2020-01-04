@@ -18,4 +18,3 @@ pytest-coverage = "*"
 [packages]
 click = "*"
 supercheckers = {editable = true,path = "."}
-

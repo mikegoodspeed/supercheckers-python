@@ -44,7 +44,8 @@ class ConsolePlayer(Player):
         """
         Parse an input string into a Move.
 
-        This method is case insensitive. If the move is not in an acceptable format, a ValueError is thrown.
+        This method is case insensitive. If the move is not in an acceptable format, a
+        ValueError is thrown.
 
         Acceptable formats:
         * "c2 c4"

@@ -4,7 +4,7 @@ from typing import Optional
 from . import enums, journals, players, verifiers
 
 
-@dataclass()
+@dataclass
 class GameState:
     """The state of a Supercheckers game."""
 

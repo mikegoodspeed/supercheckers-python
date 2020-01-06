@@ -1,4 +1,4 @@
-from unittest.mock import Mock, PropertyMock, MagicMock
+from unittest.mock import MagicMock, Mock
 
 import pytest
 
